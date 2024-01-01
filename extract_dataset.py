@@ -59,9 +59,10 @@ char_to_num = {
     'R':8,'F':9,'I':10,'K':11,
     'U':12,'O':13,'J':14,'L':15,
      'q':16,'e':17,
-     'M':18,'N':19}
+}
 
 action_list = char_to_num.keys()
+
 def load_actions(action_log_file):
     with open(action_log_file, 'r') as file:
         lines = file.readlines()
@@ -73,7 +74,7 @@ def load_actions(action_log_file):
     finished = False
     for a in actions:
         #print(a)
-        if a[1]=='i': #f
+        if a[1]=='f': #f
             record = True
 
         if record and (a[1]=='h' or a[1]=='p'):
@@ -115,9 +116,6 @@ def synchronize(arm_folder, action_log_file, camera_folders):
             if closest_image_ts:
                 camera_images.append(os.path.join(camera_folder, image_names[image_timestamps.index(closest_image_ts)] ))
 
-        if len(camera_images)<4:
-            print(f'img is not 4, only got:{len(camera_images)} in',camera_images[0])
-            continue
 
         arm_joint_positions = []
         for joint in arm_states.get(closest_arm_ts):
@@ -152,14 +150,16 @@ def extract_demonstrations(base_path= '/home/carol/Project/off-lineRL/spot_data/
             #state_log_file = sub_path + '/robot_state_log.log'
             action_log_file = sub_path + '/action_log.log'
             camera_folders = [
-                            sub_path+'/image/frontleft_depth_in_visual_frame',
+                            #sub_path+'/image/frontleft_depth_in_visual_frame',
                             sub_path+'/image/frontleft_fisheye_image',
-                            sub_path+'/image/frontright_depth_in_visual_frame',
+                            #sub_path+'/image/frontright_depth_in_visual_frame',
                             sub_path+'/image/frontright_fisheye_image']
 
             synchronized_data, finished = synchronize(arm_folder, action_log_file, camera_folders)
             if len(synchronized_data) ==0:
                 print(action_log_file)
+            if len(camera_folders) !=2:
+                print(f'img is not 2, only got:{len(camera_folders)} in',camera_folders[0])
 
             demonstrations.append([synchronized_data, finished])
             #generate_states(state_log_file)

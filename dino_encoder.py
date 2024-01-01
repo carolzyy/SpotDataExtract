@@ -3,7 +3,6 @@ from torchvision import transforms
 import ssl
 import cv2
 import numpy as np
-from PIL import Image
 class Encoder():
     def __init__(self,device='cuda'):
         self.transform = transforms.Compose([
@@ -77,7 +76,7 @@ class Encoder():
 
 
 
-
+'''
 
 base_path ='/home/carol/Project/off-lineRL/Data/logs-1206/05-12-2023-21-44-13/image/'
 imgl_path = 'frontleft_fisheye_image/1701805533.83929562568664550781.png'
@@ -99,3 +98,5 @@ feature2 = encode.encode_image_depth_state(im_l,img_r,im_dr,im_dl,arm)
 feature3 = encode.encode_image(im_l,img_r)
 feature4 = encode.encode_image_state(im_l,img_r,arm)
 print(feature2.shape)
+
+'''
